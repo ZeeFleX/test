@@ -1,0 +1,7 @@
+client/node_modules
+client/build
+mock-service/node_modules
+mock-service/dist
+service/node_modules
+service/public
+service/dist

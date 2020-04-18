@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: service
+  description: TypeScript app
+  version: 1.0.0
+servers:
+  - url: /api
+tags:
+  - name: Entities
+    description: Entities endpoints
+paths:
+  /entities:
+    get:
+      tags:
+        - Entities
+      description: Fetch all entities
+      responses:
+        200:
+          description: Returns all entities
+          content: {}
+    post:
+      tags:
+        - Entities
+      description: Update entity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: 'entity-10'
+                sortIndex: 10
+                values:
+                  - -1
+                  - -0.9
+                  - -0.8
+                  - -0.7
+                  - -0.6
+                  - -0.5
+                  - -0.4
+                  - -0.3
+                  - -0.2
+                  - -0.1
+                  - 0
+                  - 0.1
+                  - 0.2
+                  - 0.3
+                  - 0.4
+                  - 0.5
+                  - 0.6
+                  - 0.7
+                  - 0.8
+                  - 0.9
+                  - 1
+      responses:
+        200:
+          description: Updated entity
+          content: {}

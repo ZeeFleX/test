@@ -1,0 +1,107 @@
+#
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+version: "2"
+
+networks:
+  test:
+
+services:
+  mariadb:
+    container_name: mariadb
+    hostname: mariadb
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+    ports:
+      - 3307:3306
+    networks:
+      - test
+
+  business-service:
+    container_name: business-service
+    hostname: business-service
+    build: ./service/
+    ports:
+      - 3005:3000
+    networks:
+      - test
+    restart: on-failure
+    depends_on:
+      - mariadb
+
+  mock-service:
+    container_name: mock-service
+    hostname: mock-service
+    build: ./mock-service/
+    environment:
+      - entities=20
+      - values=20
+      - apiRoot=http://business-service:3000/api
+      - interval=100
+    networks:
+      - test
+    depends_on:
+      - business-service
+      - mariadb
+
+  client1:
+    container_name: client1
+    hostname: client1
+    build: ./client/
+    ports:
+      - 3000:5000
+    networks:
+      - test
+    depends_on:
+      - "business-service"
+      - "mock-service"
+  client2:
+    container_name: client2
+    hostname: client2
+    build: ./client/
+    ports:
+      - 3001:5000
+    networks:
+      - test
+    depends_on:
+      - "business-service"
+      - "mock-service"
+  client3:
+    container_name: client3
+    hostname: client3
+    build: ./client/
+    ports:
+      - 3002:5000
+    networks:
+      - test
+    depends_on:
+      - "business-service"
+      - "mock-service"
+  client4:
+    container_name: client4
+    hostname: client4
+    build: ./client/
+    ports:
+      - 3003:5000
+    networks:
+      - test
+    depends_on:
+      - "business-service"
+      - "mock-service"
+  client5:
+    container_name: client5
+    hostname: client5
+    build: ./client/
+    ports:
+      - 3004:5000
+    networks:
+      - test
+    depends_on:
+      - "business-service"
+      - "mock-service"
